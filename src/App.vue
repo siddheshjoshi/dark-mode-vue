@@ -2,7 +2,15 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <button @click="darkThemeSwitch">Switch Theme</button>
+    <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="checkbox">
+        <input type="checkbox" id="checkbox" 
+        v-model="enableDarkMode" 
+        :change="toggleDarkMode()" />
+        <div class="slider round"></div>
+  </label>
+  <em>Enable Dark Mode!</em>
+</div>
   </div>
 </template>
 
@@ -14,40 +22,83 @@ export default {
   components: {
     HelloWorld
   },
+  data() {
+    return {
+      enableDarkMode: false
+    }
+  },
   methods: {
-    _addDarkTheme() {
-      let darkThemeLinkEl = document.createElement("link");
-      darkThemeLinkEl.setAttribute("rel", "stylesheet");
-      darkThemeLinkEl.setAttribute("href", "/css/darktheme.css");
-      darkThemeLinkEl.setAttribute("id", "dark-theme-style");
-
-      let docHead = document.querySelector("head");
-      docHead.append(darkThemeLinkEl);
-    },
-    _removeDarkTheme() {
-      let darkThemeLinkEl = document.querySelector("#dark-theme-style");
-      let parentNode = darkThemeLinkEl.parentNode;
-      parentNode.removeChild(darkThemeLinkEl);
-    },
-    darkThemeSwitch() {
-      let darkThemeLinkEl = document.querySelector("#dark-theme-style");
-      if (!darkThemeLinkEl) {
-        this._addDarkTheme()
+    toggleDarkMode() {
+      if(this.enableDarkMode) {
+        document.documentElement.setAttribute('data-theme', 'dark');
       } else {
-        this._removeDarkTheme()
+        document.documentElement.setAttribute('data-theme', 'light');
       }
+
     }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+/*Simple css to style it like a toggle switch*/
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
 }
+
+  em{
+    margin-left: 10px;
+    font-size: 1rem;
+  }
+
+.theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.theme-switch input {
+  display:none;
+}
+
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}
+
+input:checked + .slider {
+  background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
 </style>
