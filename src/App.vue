@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
     <div class="theme-switch-wrapper">
     <label class="theme-switch" for="checkbox">
         <input type="checkbox" id="checkbox" 
@@ -11,21 +9,29 @@
   </label>
   <em>Enable Dark Mode!</em>
 </div>
+<div>Using D3</div>
+<chart/>
+<google-chart />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import chart from "./components/chart.vue"
+import googleChart from "./components/googleChart"
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    chart,
+    googleChart
   },
   data() {
     return {
       enableDarkMode: false
     }
+  },
+  created() {
+
   },
   methods: {
     toggleDarkMode() {
